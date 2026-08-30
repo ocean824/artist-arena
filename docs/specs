@@ -1,0 +1,130 @@
+# Artist Arena V1: Creator & Community Specification
+
+**Author:** Manus AI
+**Version:** 1.0
+**Status:** Implementation-Ready
+
+## 1. Overview and Scope
+
+This document specifies the implementation requirements for the Creator and Community domain of Artist Arena V1. It covers creator identity, profiles, portfolios, disciplines, teams/collectives, availability, discovery, search, feeds, follows, comments, notifications, community, live surfaces, scouting visibility, privacy, accessibility, and reputation.
+
+Following Owner Directive 0001, all capabilities described herein—including those previously designated as future or post-V1—are mandatory V1 architecture, implementation, integration, and test scope [2]. Gates control activation and exposure, but not construction [2].
+
+## 2. Core Entities and State Machines
+
+### 2.1 Identity and Profiles
+
+The platform supports multiple identity types, governed by role-based and attribute-based access control (RBAC/ABAC) [1].
+
+**Entities:**
+*   **User:** The base identity. Can be a fan, audience member, or progress to other roles.
+*   **Creator:** A user who uploads work, enters battles, and maintains a portfolio.
+*   **Verified Creator:** A creator who has passed identity and/or skill verification gates.
+*   **Team/Collective:** A shared identity with a roster of members, shared portfolio, and revenue split configuration.
+
+**Profile State Machine:**
+*   `DRAFT`: Initial creation, incomplete mandatory fields.
+*   `ACTIVE`: Publicly visible, eligible for standard interactions.
+*   `RESTRICTED`: Limited visibility or capabilities due to moderation or policy flags.
+*   `SUSPENDED`: Temporarily or permanently disabled.
+*   `DELETED`: Soft-deleted, retained for audit and compliance.
+
+### 2.2 Portfolios and Disciplines
+
+The architecture must be discipline-agnostic, supporting music, visual art, video, coding, and more [1].
+
+**Entities:**
+*   **Work/Asset:** A digital creation uploaded by a creator.
+*   **Portfolio:** A curated collection of Works associated with a Creator or Team.
+*   **Discipline:** A structured category (e.g., "Beat Production", "Visual Art") defining specific metadata schemas, rendering requirements, and competition rules.
+
+**Work State Machine:**
+*   `UPLOADING`: Media is being transferred and processed.
+*   `PROCESSING`: Platform is generating derivatives, running safety checks, and hashing for provenance.
+*   `PRIVATE`: Visible only to the creator/team.
+*   `PUBLIC`: Visible to the community, eligible for discovery and competition.
+*   `FLAGGED`: Under moderation review.
+*   `TAKEDOWN`: Removed due to rights claims or policy violations.
+
+### 2.3 Divisions and AI Policy
+
+Works and profiles must adhere to the three platform divisions [1]:
+1.  **Pure Human:** Prestige craftsmanship; no generative AI.
+2.  **Hybrid:** AI-assisted work with material human direction; tools must be disclosed.
+3.  **AI Open:** Broad generative workflows allowed; standard safety rules apply.
+
+## 3. Community and Discovery
+
+### 3.1 Search and Discovery
+
+Discovery mechanisms must surface talent based on competitive evidence, not just popularity [1].
+
+*   **Search:** Multi-faceted search across creators, works, battles, and disciplines. Supports filtering by division, rating, location (if shared), and availability.
+*   **Feeds:** Algorithmic and chronological feeds blending followed creators, trending battles, and curated highlights.
+*   **Scouting Visibility:** Dedicated interfaces for Scouts/A&R to filter creators based on verified performance, consistency, and specific discipline metrics.
+
+### 3.2 Interaction Primitives
+
+*   **Follows:** Asymmetric relationships allowing users to subscribe to creator updates.
+*   **Comments:** Threaded discussions on works, battles, and profiles. Must support moderation tools (hide, report, filter).
+*   **Notifications:** Real-time and aggregated alerts for mentions, battle results, new works, and community interactions.
+
+### 3.3 Live Surfaces
+
+Live integrations are mandatory V1 scope [2].
+
+*   **Live Events:** Synchronous digital events, live battle adjudication, and creator streams.
+*   **Audience Participation:** Real-time voting, tipping (subject to 1% fee and compliance gates), and live chat.
+
+## 4. Trust, Privacy, and Reputation
+
+### 4.1 Reputation and Verification
+
+Reputation is built through verified competitive records [1].
+
+*   **Competitive Record:** Immutable history of battle outcomes, ratings, and judge feedback.
+*   **Verification:** Multi-tier verification including basic identity (KYC/KYB), skill verification (peer or judge reviewed), and AI disclosure compliance.
+
+### 4.2 Privacy and Rights
+
+*   **Consent and Rights:** Works must include metadata defining licensing, AI training consent, and attribution requirements.
+*   **Privacy Controls:** Granular settings for profile visibility, direct messaging, and location sharing.
+
+### 4.3 Moderation and Abuse
+
+*   **Reporting:** Standardized flows for reporting content, behavior, or rights violations.
+*   **Trust Analysts:** Dedicated roles for reviewing flags, appeals, and anomalies.
+
+## 5. Blockchain Anchoring
+
+Blockchain functionality is mandatory for provenance and evidence, without storing large media or sensitive identity on-chain [2].
+
+*   **Provenance:** Content hashes, timestamps, tool disclosures, and licenses must be anchored to the ledger.
+*   **Evidence:** Battle commitments, ruleset hashes, and result attestations must be recorded for auditability.
+
+## 6. Implementation and Acceptance
+
+### 6.1 V1 Definition of Done
+
+The Creator and Community domain is done when:
+1.  Users can create profiles, upload works across multiple disciplines, and form teams.
+2.  The three AI divisions are enforced via metadata and UI disclosures.
+3.  Discovery, search, feeds, follows, and comments are fully functional.
+4.  Scouts can filter talent based on verified competitive records.
+5.  Live surfaces support real-time interaction and voting.
+6.  Privacy, rights, and moderation controls are integrated.
+7.  Blockchain anchoring is implemented for provenance and evidence.
+8.  The 1% conversion fee logic is configured for relevant tipping/commerce interactions.
+
+### 6.2 Work Packages
+
+1.  **Identity & RBAC:** Implement user, creator, and team schemas; ABAC policies.
+2.  **Portfolio & Disciplines:** Build media upload, processing pipeline, and discipline-agnostic metadata schemas.
+3.  **Discovery & Social:** Develop search index, feed algorithms, follows, and notifications.
+4.  **Live & Scouting:** Implement live event synchronization and scout filtering interfaces.
+5.  **Trust & Ledger:** Integrate moderation queues, privacy controls, and blockchain anchoring.
+
+## References
+
+[1] [ARTIST-ARENA-V1-Master-Specification.md](/home/ubuntu/artist-arena/docs/source/ARTIST-ARENA-V1-Master-Specification.md)
+[2] [0001-v1-build-complete.md](/home/ubuntu/artist-arena/docs/owner-directives/0001-v1-build-complete.md)

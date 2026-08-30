@@ -1,0 +1,23 @@
+{
+  "name": "artist-arena",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Competitive infrastructure for the global creator economy",
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "validate:repo": "python3 tools/validate_repository.py",
+    "check": "pnpm validate:repo && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.6",
+    "typescript": "^5.7.3"
+  }
+}

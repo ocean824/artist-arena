@@ -1,0 +1,19 @@
+{
+  "name": "@artist-arena/auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Authentication, sessions, passkeys, step-up auth, roles, and organizations",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://artist-arena.invalid/schemas/domain-event.schema.json",
+  "title": "Artist Arena Domain Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "eventId",
+    "eventType",
+    "eventVersion",
+    "aggregateType",
+    "aggregateId",
+    "aggregateVersion",
+    "actorId",
+    "occurredAt",
+    "recordedAt",
+    "requestId",
+    "traceId",
+    "correlationId",
+    "policyVersion",
+    "privacyClass",
+    "retentionClass",
+    "payload"
+  ],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "eventType": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*\\.v[1-9][0-9]*$"
+    },
+    "eventVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "aggregateType": {
+      "type": "string",
+      "minLength": 1
+    },
+    "aggregateId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "aggregateVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "actorId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recordedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "requestId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "traceId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "correlationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "causationId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "policyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "privacyClass": {
+      "enum": [
+        "PUBLIC",
+        "INTERNAL",
+        "CONFIDENTIAL",
+        "RESTRICTED"
+      ]
+    },
+    "retentionClass": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}

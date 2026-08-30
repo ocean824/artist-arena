@@ -1,0 +1,19 @@
+{
+  "name": "@artist-arena/security",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Authorization, signatures, idempotency, webhook verification, and security events",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

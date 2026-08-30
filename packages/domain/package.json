@@ -1,0 +1,19 @@
+{
+  "name": "@artist-arena/domain",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Competition, creator, marketplace, sponsor, scout, and trust domain services",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

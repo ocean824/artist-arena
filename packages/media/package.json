@@ -1,0 +1,19 @@
+{
+  "name": "@artist-arena/media",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Uploads, quarantine, scans, derivatives, playback access, and media providers",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

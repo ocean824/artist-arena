@@ -1,0 +1,241 @@
+# Artist Arena: Operations and Governance Specification
+
+## 1. Introduction
+
+This document provides the implementation-grade specification for the Operations and Governance domain of Artist Arena V1. Artist Arena is the competitive infrastructure layer for the global creator economy, supporting multi-discipline creators across Pure Human, Hybrid, and AI Open divisions.
+
+This specification covers environments, release/change control, support, moderation, finance/compliance operations, reconciliation, vendor/provider management, on-call procedures, incident severities, business continuity, disaster recovery, data retention, audit evidence, policy rollouts, and launch/readiness reviews.
+
+Per Owner Directive 0001, every capability—including native blockchain integration, real-value credits, paid entry, wagering, prize settlement, and cash-out—is mandatory V1 engineering scope. Gates may control activation and exposure, but not construction. The platform defaults to a 1% conversion fee where relevant.
+
+## 2. Domain Boundaries and Product Rules
+
+The Operations and Governance domain is responsible for the secure, compliant, and reliable operation of the Artist Arena platform. It interfaces with all other domains (Identity, Competition, Commerce, Media, Blockchain) to enforce policies, manage risks, and resolve exceptions.
+
+### 2.1 Product Rules
+*   **Separation of Duties:** Operational roles (e.g., Finance Operator, Trust Analyst) must have distinct, non-overlapping permissions.
+*   **Auditability:** All administrative and operational actions must be logged immutably, with critical actions anchored to the native blockchain.
+*   **Policy-Driven Activation:** Features (e.g., real-money wagering) must be gated by configuration policies (jurisdiction, age, identity verification) rather than hardcoded logic.
+*   **1% Conversion Fee:** The platform defaults to a 1% fee on credit-to-cash and cash-to-credit conversions. This is a configuration-driven default, separate from third-party costs.
+*   **Divisions:** Operations must respect the Pure Human, Hybrid, and AI Open divisions, applying appropriate moderation and dispute resolution rules for each. AI supplements human judging but does not replace it.
+*   **Blockchain Anchoring:** Critical operational state changes (e.g., policy updates, ledger reconciliation anchors) must be hashed and anchored to the blockchain without storing sensitive PII or large media on-chain.
+
+## 3. Actors and Permissions
+
+The following operational roles are defined within the RBAC/ABAC system:
+
+| Role | Description | Key Permissions |
+| :--- | :--- | :--- |
+| `moderator` | Handles content and behavioral reports. | View reports, hide content, issue warnings, temporary suspensions. |
+| `trust_analyst` | Handles complex disputes, rights claims, and fraud signals. | Review appeals, manage IP claims, permanent bans, override automated flags. |
+| `finance_operator` | Manages ledger exceptions, reconciliation, and holds. | Review payout holds, manual reconciliation, adjust balances (with secondary approval). |
+| `compliance_operator` | Manages KYC/AML reviews, jurisdiction blocks, and sanctions. | Approve/reject identity verification, update restricted jurisdictions, review sanctions alerts. |
+| `support_agent` | Handles general user inquiries and non-critical issues. | View user profiles, reset passwords, view non-sensitive transaction history. |
+| `admin` | Manages platform configuration and feature flags. | Update global policies, toggle feature flags, manage discipline templates. Cannot alter financial ledger. |
+| `super_admin` | Highest level of access, reserved for founders/executives. | Assign roles, emergency overrides, approve critical policy changes. |
+
+## 4. Environments and Release/Change Control
+
+### 4.1 Environments
+The V1 architecture must support the following environments:
+*   `LOCAL`: Developer workstations.
+*   `TEST`: Automated CI/CD testing environment.
+*   `SANDBOX`: Isolated environment for provider integration testing and partner staging.
+*   `TESTNET`: Blockchain test network for smart contract and consensus testing.
+*   `STAGING`: Pre-production environment mirroring production data and configuration.
+*   `PRODUCTION`: Live environment serving end-users.
+
+### 4.2 Release and Change Control
+*   **CI/CD Pipeline:** All changes must pass automated tests (unit, integration, e2e) and security scans before deployment.
+*   **Feature Flags:** All new features, especially compliance-gated ones (e.g., real-money wagering), must be wrapped in feature flags.
+*   **Approval Gates:** Deployments to `STAGING` and `PRODUCTION` require mandatory code reviews and passing CI. `PRODUCTION` deployments require explicit approval from an authorized release manager.
+*   **Rollback:** Automated rollback procedures must be in place for failed deployments.
+
+## 5. Moderation and Trust Operations
+
+### 5.1 Moderation Workflows
+1.  **Intake:** Reports are generated by users, automated systems (e.g., AI detection, fraud models), or external rights holders.
+2.  **Triage:** Reports are categorized by severity and routed to the appropriate queue (e.g., `moderator` for spam, `trust_analyst` for IP claims).
+3.  **Review:** Operators review evidence, including blockchain provenance records and AI disclosure metadata.
+4.  **Action:** Operators apply sanctions (e.g., content removal, account suspension) or dismiss the report.
+5.  **Appeal:** Users can appeal decisions, which are routed to a senior `trust_analyst`.
+
+### 5.2 Rights and IP Management
+*   The system must handle DMCA takedown requests and counter-notices.
+*   Disputes over Pure Human vs. Hybrid/AI Open classification must be resolvable through the submission of process evidence.
+
+## 6. Finance and Compliance Operations
+
+### 6.1 Reconciliation
+*   Automated daily reconciliation must run between the internal ledger, the native blockchain state, and external payment provider records.
+*   Discrepancies must trigger alerts to the `finance_operator` queue.
+*   Reconciliation anchors (hashes of the reconciled state) must be posted to the blockchain.
+
+### 6.2 Holds and Chargebacks
+*   The system must support automated and manual holds on payouts pending fraud or compliance review.
+*   Chargebacks from external providers must automatically freeze associated credits and notify a `finance_operator` for review and liability allocation.
+
+### 6.3 Compliance and Jurisdiction
+*   `compliance_operator` must manage the list of restricted jurisdictions and age thresholds.
+*   The policy engine must evaluate these rules before allowing any real-value transaction.
+
+## 7. Incident Management and Business Continuity
+
+### 7.1 Incident Severities
+*   **SEV-1 (Critical):** Platform outage, data breach, widespread financial discrepancy. Requires immediate all-hands response.
+*   **SEV-2 (High):** Major feature broken (e.g., battles cannot start, payouts failing). Requires immediate on-call response.
+*   **SEV-3 (Medium):** Non-critical feature broken, degraded performance. Addressed during business hours.
+*   **SEV-4 (Low):** Minor bugs, cosmetic issues. Added to backlog.
+
+### 7.2 On-Call and Support
+*   A 24/7 on-call rotation must be established for SEV-1 and SEV-2 incidents.
+*   Support agents must have runbooks for escalating issues to the engineering team.
+
+### 7.3 Disaster Recovery and Business Continuity
+*   **RPO (Recovery Point Objective):** < 5 minutes for critical ledger and competition data.
+*   **RTO (Recovery Time Objective):** < 4 hours for full platform restoration.
+*   Regular disaster recovery drills (including blockchain state recovery) must be conducted.
+
+## 8. Data Retention and Audit Evidence
+
+*   **Financial Data:** Retained for a minimum of 7 years, or as required by jurisdiction.
+*   **Audit Logs:** All administrative actions and policy changes must be retained indefinitely.
+*   **Blockchain Evidence:** Hashes of critical events (competition results, rights claims) provide immutable audit evidence without storing PII on-chain.
+
+## 9. Policy Rollouts and Launch Readiness
+
+*   **Policy Versioning:** All operational policies (e.g., terms of service, fee structures) must be versioned. Users must accept new versions before continuing use.
+*   **Launch Readiness Reviews (LRR):** Before activating any gated feature in production, an LRR must be conducted, verifying:
+    *   Legal and compliance approval.
+    *   Payment provider approval.
+    *   Security audit completion.
+    *   Operational runbooks are in place.
+    *   Founder approval.
+
+## 10. Entities and State Machines
+
+### 10.1 Entities
+*   `Incident`: Tracks system outages or security events.
+*   `Report`: User or system-generated moderation flag.
+*   `Dispute`: Formal challenge to a competition result or financial transaction.
+*   `AuditLog`: Immutable record of administrative actions.
+*   `Policy`: Versioned configuration rules (e.g., fee rates, jurisdiction blocks).
+
+### 10.2 State Machines
+*   **Report State:** `Pending` -> `Under Review` -> `Resolved (Action Taken)` / `Dismissed` -> `Appealed` -> `Final`.
+*   **Dispute State:** `Opened` -> `Evidence Gathering` -> `Under Review` -> `Resolved (Upheld)` / `Resolved (Rejected)`.
+
+## 11. API and Event Implications
+
+*   **Internal APIs:** Secure endpoints for operational dashboards (e.g., `/api/admin/reports`, `/api/finance/reconciliation`).
+*   **Events:** Emit events for all operational actions (e.g., `PolicyUpdated`, `UserSuspended`, `ReconciliationFailed`) to trigger audit logging and alerts.
+
+## 12. Security, Privacy, and Abuse Modes
+
+*   **Security:** Operational tools must be secured with MFA and accessible only via VPN or secure proxy.
+*   **Privacy:** Operational staff must only access PII when strictly necessary for their role.
+*   **Abuse Modes:**
+    *   *Insider Threat:* Mitigated by separation of duties and immutable audit logging.
+    *   *Social Engineering:* Support agents must follow strict verification protocols before modifying user accounts.
+
+## 13. Observability, Analytics, and Performance
+
+*   **Metrics:** Track operational SLAs (e.g., time to resolve reports, reconciliation success rate).
+*   **Dashboards:** Provide real-time visibility into system health, financial flows, and moderation queues.
+
+## 14. Acceptance Criteria and V1 Definition of Done
+
+*   [ ] RBAC system is fully implemented and tested with all defined operational roles.
+*   [ ] Audit logging captures all administrative actions and anchors critical events to the blockchain.
+*   [ ] Moderation workflows (intake, triage, review, action, appeal) are functional.
+*   [ ] Automated daily reconciliation runs between the internal ledger and blockchain.
+*   [ ] Policy engine correctly evaluates jurisdiction and compliance rules before allowing transactions.
+*   [ ] 1% conversion fee is configurable and correctly applied to relevant transactions.
+*   [ ] Feature flags are in place to control the activation of real-money features.
+*   [ ] Disaster recovery procedures are documented and tested.
+
+## 15. Dependency-Ordered Work Packages
+
+1.  **WP1: Core RBAC and Audit Logging:** Implement roles, permissions, and immutable audit trails.
+2.  **WP2: Policy Engine and Configuration:** Build the system to manage versioned policies and feature flags.
+3.  **WP3: Moderation and Trust Tools:** Develop dashboards and workflows for handling reports and disputes.
+4.  **WP4: Finance and Reconciliation Ops:** Implement automated reconciliation, hold management, and chargeback handling.
+5.  **WP5: Blockchain Anchoring Integration:** Connect audit logs and reconciliation anchors to the native blockchain.
+
+## 16. Unresolved ADRs
+
+*   **ADR-OPS-001:** Selection of the third-party identity verification provider (KYC/AML).
+*   **ADR-OPS-002:** Specific SLA targets for moderation response times across different divisions.
+
+
+## 17. Detailed Vendor and Provider Management
+
+The Artist Arena platform relies on a series of external vendors and providers to facilitate core operations. Managing these relationships, integrating their services, and handling failovers are critical operational responsibilities.
+
+### 17.1 Identity Verification (KYC/AML) Providers
+To comply with global financial regulations, the platform integrates with third-party identity verification services. These providers handle document verification, biometric checks, and sanctions screening. The integration must be designed to allow for graceful degradation. If the primary provider experiences downtime, the system should queue verification requests or route them to a secondary provider. The `compliance_operator` must have tools to review manual escalations when the automated system cannot make a definitive decision.
+
+### 17.2 Payment Processing Providers
+Payment processors handle the fiat on-ramps and off-ramps. The architecture must abstract the specific provider implementation behind a unified payment interface. This allows the platform to switch providers or route transactions based on cost, geographic availability, or provider health. The `finance_operator` monitors provider health dashboards and can manually route traffic if necessary. All provider interactions must be idempotently designed to prevent double-charging or missed credits during network interruptions.
+
+### 17.3 Media Storage and Delivery Networks
+High-quality media delivery is central to the Artist Arena experience. The platform utilizes distributed object storage and Content Delivery Networks (CDNs) to ensure low-latency playback globally. Operations must monitor CDN cache hit ratios, bandwidth costs, and storage growth. In the event of a regional CDN failure, traffic must be automatically routed to an alternative region or provider.
+
+### 17.4 Blockchain Infrastructure Providers
+While Artist Arena may run its own validator nodes, it also relies on external node providers for redundancy and read-heavy workloads. The operational team must monitor the sync status, latency, and error rates of these external nodes. A fallback mechanism must be in place to route critical transactions through internal nodes if external providers degrade.
+
+## 18. Advanced Moderation and Trust Operations
+
+The moderation system must scale to handle the volume of content generated across multiple disciplines and divisions.
+
+### 18.1 Automated Detection Systems
+The platform employs automated detection models to flag potential policy violations before they are reported by users. These models analyze audio, video, text, and metadata for copyright infringement, explicit content, hate speech, and spam. The `trust_analyst` team tunes the sensitivity of these models to balance false positives and false negatives. Automated flags route content to the appropriate human review queue based on confidence scores.
+
+### 18.2 AI Division Specific Moderation
+The Pure Human, Hybrid, and AI Open divisions require distinct moderation approaches. In the Pure Human division, moderation focuses on verifying that no generative AI tools were used. This may involve analyzing project files or process evidence. In the Hybrid division, moderation ensures that the required human elements are present and that AI tools are correctly disclosed. The `trust_analyst` has access to specialized tools to inspect metadata and provenance records to enforce these division rules.
+
+### 18.3 Reputation and Trust Scores
+Users, creators, and judges accumulate a hidden trust score based on their history on the platform. Positive actions (e.g., accurate judging, accepted reports) increase the score, while negative actions (e.g., false reports, policy violations) decrease it. The trust score influences the weight of a user's reports and their eligibility for certain roles (e.g., becoming a verified judge).
+
+## 19. Detailed Incident Response Procedures
+
+A robust incident response framework minimizes downtime and ensures clear communication during crises.
+
+### 19.1 Incident Detection and Triage
+Incidents are detected through automated monitoring alerts, customer support escalations, or internal reports. The on-call engineer acknowledges the alert and performs initial triage to determine the severity (SEV-1 to SEV-4). For SEV-1 and SEV-2 incidents, an Incident Commander (IC) is appointed to lead the response.
+
+### 19.2 Communication Protocols
+The IC is responsible for establishing a dedicated communication channel (e.g., a specific Slack channel or war room) and updating internal stakeholders at regular intervals. For user-facing outages, the support team updates the public status page and prepares communication templates for social media and email.
+
+### 19.3 Post-Incident Review (PIR)
+After a SEV-1 or SEV-2 incident is resolved, a blameless Post-Incident Review must be conducted within 5 business days. The PIR documents the timeline, root cause, impact, and action items to prevent recurrence. Action items are added to the engineering backlog with high priority.
+
+## 20. Comprehensive Business Continuity Planning
+
+The platform must be resilient to catastrophic failures, ensuring data integrity and rapid recovery.
+
+### 20.1 Database Backups and Replication
+The primary relational database and the ledger database must have continuous replication to a geographically distinct secondary region. Automated snapshots are taken daily and stored in immutable storage to protect against ransomware or accidental deletion. The recovery process from snapshots must be tested monthly.
+
+### 20.2 Blockchain State Recovery
+The native blockchain state must be backed up independently of the primary databases. In the event of a catastrophic network failure, the operational team must be able to restore the chain state from the latest finalized block and coordinate with validators to resume consensus.
+
+### 20.3 Fallback Operating Modes
+If critical non-core services fail (e.g., the recommendation engine or the analytics pipeline), the platform must degrade gracefully. Core functions like battle entry, judging, and ledger transactions must continue to operate even if peripheral features are temporarily unavailable.
+
+## 21. Expanded Acceptance Criteria
+
+*   [ ] Integration with at least two identity verification providers is complete, with automated failover routing.
+*   [ ] Payment provider interface supports dynamic routing and idempotent transaction processing.
+*   [ ] Automated content detection models are integrated into the moderation workflow with configurable thresholds.
+*   [ ] Trust score system is implemented and influences report weighting and role eligibility.
+*   [ ] Incident response runbooks for SEV-1 and SEV-2 scenarios are documented and accessible to the on-call team.
+*   [ ] Database failover to the secondary region is tested and meets the RTO/RPO targets.
+*   [ ] Blockchain state recovery procedures are documented and successfully tested in the `TESTNET` environment.
+*   [ ] The public status page is integrated with the internal monitoring and alerting systems.
+
+## 22. Further Unresolved ADRs
+
+*   **ADR-OPS-003:** Selection of the primary and secondary Content Delivery Networks (CDNs) for media distribution.
+*   **ADR-OPS-004:** Definition of the specific metrics and thresholds that constitute a SEV-1 versus a SEV-2 incident.
+*   **ADR-OPS-005:** Strategy for managing and rotating cryptographic keys used for blockchain anchoring and ledger integrity.

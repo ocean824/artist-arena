@@ -1,0 +1,63 @@
+{
+  "project": "Artist Arena",
+  "tagline": "Competitive infrastructure for the global creator economy",
+  "version": "V1.0 Build-Complete Program",
+  "repository_status": "documentation-rich compilable contract scaffold",
+  "confidentiality": "proprietary-private",
+  "canonical_source": {
+    "path": "docs/source/ARTIST-ARENA-V1-Master-Specification.md",
+    "original_filename": "Pasted_content_01.txt",
+    "sha256": "6fe9ba6637165d43d3ab606e54aaed07104aff69e2b5717046ae26b4d4d18fa5",
+    "preservation": "byte-for-byte"
+  },
+  "entrypoints": {
+    "human": "README.md",
+    "codespring": "CODESPRING.md",
+    "agents": "AGENTS.md",
+    "owner_directive": "docs/owner-directives/0001-v1-build-complete.md",
+    "requirements": "docs/requirements/requirements-register.md",
+    "backlog": "docs/backlog/v1-160-tickets.md",
+    "adrs": "docs/adr/README.md",
+    "architecture": "docs/architecture/01-system-architecture.md",
+    "state_machines": "docs/architecture/state-machines.md",
+    "data_model": "docs/data/domain-model.md",
+    "api_events": "docs/api/contracts-and-events.md",
+    "blockchain": "docs/architecture/native-blockchain.md",
+    "economy": "docs/economy/ledger-and-accounting.md",
+    "activation_policy": "docs/compliance/activation-policy-engine.md",
+    "quality": "docs/testing/quality-gauntlet.md",
+    "project_memory": ".agents/PROJECT_MEMORY.md"
+  },
+  "branches": ["main", "staging", "develop"],
+  "counts": {
+    "build_complete_v1_requirements": 120,
+    "v1_implementation_tickets": 160,
+    "individual_adrs": 45,
+    "apps": 5,
+    "shared_packages": 23
+  },
+  "mandatory_v1_build_scope": [
+    "multi-discipline creator competition",
+    "Pure Human Hybrid and AI Open divisions",
+    "native blockchain and sovereign application chain",
+    "wallet custody signing and recovery",
+    "purchased credits and Arena Points separation",
+    "configuration-driven one-percent bidirectional conversion fee",
+    "paid entry and one-to-one credit wagers",
+    "sponsored participant-funded and mixed prize pools",
+    "escrow result attestation settlement payout and reconciliation",
+    "marketplace subscriptions services licenses royalties and splits",
+    "native mobile native streaming and public API",
+    "security privacy rights moderation compliance analytics and operations"
+  ],
+  "automatic_agent_activation_authority": {
+    "production_deployment": false,
+    "public_release": false,
+    "real_money_movement": false,
+    "production_token_supply": false,
+    "wallet_custody": false,
+    "paid_or_wager_activation": false,
+    "production_signing_or_validator_keys": false,
+    "binding_legal_or_provider_commitment": false
+  }
+}

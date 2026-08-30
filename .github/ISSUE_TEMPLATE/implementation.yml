@@ -1,0 +1,42 @@
+name: Implementation work package
+description: Create a requirement-first Artist Arena implementation ticket
+title: "[AA-####] "
+labels: ["type:implementation", "status:triage"]
+body:
+  - type: input
+    id: requirements
+    attributes:
+      label: Requirement IDs
+      placeholder: AA-CMP-001, AA-SEC-097
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective and user/operator outcome
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope, dependencies, affected paths, and exclusions
+    validations:
+      required: true
+  - type: textarea
+    id: contracts
+    attributes:
+      label: States, APIs, schemas, events, migrations, and chain contracts
+    validations:
+      required: true
+  - type: textarea
+    id: impacts
+    attributes:
+      label: Security, privacy, rights, moderation, economic, and activation impact
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria, tests, evidence, migration, and rollback
+    validations:
+      required: true

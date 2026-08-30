@@ -1,0 +1,19 @@
+{
+  "name": "@artist-arena/provenance",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Creator work hashes, AI disclosures, evidence, rights, licenses, and consent",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

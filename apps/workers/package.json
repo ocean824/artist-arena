@@ -1,0 +1,16 @@
+{
+  "name": "@artist-arena/workers",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Outbox, deadlines, finalization, settlement, reconciliation, media, and notifications",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
